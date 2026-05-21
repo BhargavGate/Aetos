@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 
 // Draggable Before/After Image Comparison Slider Component
-function BeforeAfterSlider({ beforeImg, afterImg, beforeLabel = 'BEFORE AURA & RANK', afterLabel = 'AFTER AURA & RANK' }) {
+function BeforeAfterSlider({ beforeImg, afterImg, beforeLabel = 'BEFORE AETOS', afterLabel = 'AFTER AETOS' }) {
   const [sliderPosition, setSliderPosition] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
   const [containerWidth, setContainerWidth] = useState(0);
@@ -195,7 +195,7 @@ export default function Portfolio() {
         <p style={styles.tag}>THE EVIDENCE</p>
         <h1 style={styles.title}>Visual Transformations</h1>
         <p style={styles.sub}>
-          Real results, visible progress. Compare the aesthetic and performance difference between standard digital presences and Aura &amp; Rank luxury systems.
+          Real results, visible progress. Compare the aesthetic and performance difference between standard digital presences and Aetos luxury systems.
         </p>
       </section>
 
@@ -206,7 +206,7 @@ export default function Portfolio() {
             beforeImg="/before_brand.png" 
             afterImg="/after_brand.png" 
             beforeLabel="Standard Digital Presence"
-            afterLabel="Aura & Rank Luxury Refit"
+            afterLabel="AETOS Luxury Refit"
           />
         </div>
         <div style={styles.sliderCaption}>
