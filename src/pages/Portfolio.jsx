@@ -1,10 +1,23 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 // Draggable Before/After Image Comparison Slider Component
 function BeforeAfterSlider({ beforeImg, afterImg, beforeLabel = 'BEFORE AURA & RANK', afterLabel = 'AFTER AURA & RANK' }) {
   const [sliderPosition, setSliderPosition] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
+  const [containerWidth, setContainerWidth] = useState(0);
   const containerRef = useRef(null);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const updateWidth = () => {
+      if (containerRef.current) {
+        setContainerWidth(containerRef.current.offsetWidth);
+      }
+    };
+    updateWidth();
+    window.addEventListener('resize', updateWidth);
+    return () => window.removeEventListener('resize', updateWidth);
+  }, []);
 
   const handleMove = (clientX) => {
     if (!containerRef.current) return;
@@ -72,7 +85,7 @@ function BeforeAfterSlider({ beforeImg, afterImg, beforeLabel = 'BEFORE AURA & R
           src={beforeImg} 
           alt="Before Transformation" 
           className="slider-img"
-          style={{ width: containerRef.current ? containerRef.current.offsetWidth : '100vw' }}
+          style={{ width: containerWidth ? `${containerWidth}px` : '100%' }}
         />
         <span className="slider-label before-label">{beforeLabel}</span>
       </div>
@@ -108,11 +121,12 @@ export default function Portfolio() {
   const [activeCategory, setActiveCategory] = useState('all');
 
   const categories = [
+    { id: 'startups', label: 'demo & projects' },
     { id: 'all', label: 'All Verticals' },
     { id: 'clinical', label: 'Clinics & MedSpas' },
     { id: 'properties', label: 'Real Estate' },
     { id: 'dining', label: 'Hospitality & Dining' },
-    { id: 'salons', label: 'Salons & Spas' }
+    { id: 'salons', label: 'Salons & Spas' },
   ];
 
   const caseStudies = [
@@ -155,6 +169,18 @@ export default function Portfolio() {
       growth: '+314%',
       services: ['Google Maps Domination', 'Premium Redesign', 'Review Loops'],
       summary: 'Configured local maps visibility to funnel ready-to-book balayage and extensions searchers directly to their scheduling app, lifting overall booking values.'
+    },
+    {
+      title: 'Aetos Developer Portfolio',
+      location: 'Remote / Global',
+      category: 'startups',
+      beforeMetric: 'Standard CV template',
+      afterMetric: 'Glassmorphic interactive showcase',
+      growth: '100% Perf',
+      services: ['Next.js App Router', 'Tailwind CSS Grid', 'Docker & CI/CD Pipelines'],
+      summary: 'Engineered a highly responsive, premium developer portfolio featuring smooth glassmorphism, interactive activity feeds, and integrated achievement loops. Optimized for sub-second page loads and custom integrations.',
+      projectUrl: 'https://cv-black-three.vercel.app/',
+      githubUrl: 'https://github.com/bxgate'
     }
   ];
 
@@ -235,35 +261,64 @@ export default function Portfolio() {
         <div style={styles.grid}>
           {filteredCases.map((cs, idx) => (
             <div key={idx} className="glass-card" style={styles.card}>
-              <div style={styles.cardHeader}>
-                <div>
-                  <h3 style={styles.cardTitle}>{cs.title}</h3>
-                  <p style={styles.cardLoc}>{cs.location}</p>
+              <div>
+                <div style={styles.cardHeader}>
+                  <div>
+                    <h3 style={styles.cardTitle}>{cs.title}</h3>
+                    <p style={styles.cardLoc}>{cs.location}</p>
+                  </div>
+                  <div style={styles.growthBadge} className="glass-panel">
+                    {cs.growth}
+                  </div>
                 </div>
-                <div style={styles.growthBadge} className="glass-panel">
-                  {cs.growth}
+
+                <div style={styles.metricsBox}>
+                  <div style={styles.metricSub}>
+                    <span style={styles.metricSubLabel}>Before:</span>
+                    <span style={styles.metricSubVal}>{cs.beforeMetric}</span>
+                  </div>
+                  <div style={styles.metricSub}>
+                    <span style={styles.metricSubLabel}>After:</span>
+                    <span style={{ ...styles.metricSubVal, color: 'var(--gold-base)' }}>{cs.afterMetric}</span>
+                  </div>
                 </div>
+
+                <p style={styles.cardDesc}>{cs.summary}</p>
               </div>
 
-              <div style={styles.metricsBox}>
-                <div style={styles.metricSub}>
-                  <span style={styles.metricSubLabel}>Before:</span>
-                  <span style={styles.metricSubVal}>{cs.beforeMetric}</span>
+              <div>
+                <div style={styles.tagWrapper}>
+                  {cs.services.map((s, sIdx) => (
+                    <span key={sIdx} style={styles.caseTag}>
+                      {s}
+                    </span>
+                  ))}
                 </div>
-                <div style={styles.metricSub}>
-                  <span style={styles.metricSubLabel}>After:</span>
-                  <span style={{ ...styles.metricSubVal, color: 'var(--gold-base)' }}>{cs.afterMetric}</span>
-                </div>
-              </div>
 
-              <p style={styles.cardDesc}>{cs.summary}</p>
-
-              <div style={styles.tagWrapper}>
-                {cs.services.map((s, sIdx) => (
-                  <span key={sIdx} style={styles.caseTag}>
-                    {s}
-                  </span>
-                ))}
+                {(cs.projectUrl || cs.githubUrl) && (
+                  <div className="card-links">
+                    {cs.projectUrl && (
+                      <a 
+                        href={cs.projectUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="card-link-btn"
+                      >
+                        Live Demo ↗
+                      </a>
+                    )}
+                    {cs.githubUrl && (
+                      <a 
+                        href={cs.githubUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="card-link-btn-secondary"
+                      >
+                        GitHub ↗
+                      </a>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           ))}
@@ -366,7 +421,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    minHeight: '440px',
+    minHeight: '480px',
   },
   cardHeader: {
     display: 'flex',
