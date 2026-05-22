@@ -23,7 +23,7 @@ export default function Home({ setActivePage }) {
       ]
     },
     realestate: {
-      title: 'Luxury Real Estate Miami',
+      title: 'Luxury Dehli',
       clientRankBefore: 12,
       clientRankAfter: 1,
       competitors: [
@@ -72,7 +72,7 @@ export default function Home({ setActivePage }) {
             Through Search &amp; Design
           </h1>
           <p style={styles.sub}>
-            We can make it not super-specific to you salons
+            We help ambitious business grow their visibility build trust and generate consistent, high-quality leads.
           </p>
 
           <div style={styles.ctaGroup}>
@@ -87,25 +87,7 @@ export default function Home({ setActivePage }) {
       </header>
 
       {/* 2. TRUSTED BY MARQUEE */}
-      <section style={styles.trusted}>
-        <h3 style={styles.trustedHeading}>Partners in Scale</h3>
-        <div className="logo-marquee-container">
-          <div className="logo-marquee-track">
-            {/* Double the logos to make the infinite loop scroll seamlessly */}
-            {[...clientLogos, ...clientLogos].map((logo, idx) => (
-              <div key={idx} className="logo-item" style={styles.logoItem}>
-                <span style={{ 
-                  ...styles.logoName, 
-                  fontStyle: logo.style === 'italic' ? 'italic' : 'normal',
-                  fontFamily: logo.style === 'italic' ? 'var(--font-serif)' : 'var(--font-sans)'
-                }}>
-                  {logo.name}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+
 
       {/* 3. INTERACTIVE MAPS RANKING VISUALIZER */}
       <section style={styles.section}>
@@ -282,7 +264,7 @@ export default function Home({ setActivePage }) {
       <section style={styles.processSection}>
         <div style={styles.sectionHeader}>
           <p style={styles.tag}>THE BLUEPRINT</p>
-          <h2 style={styles.sectionTitle}>The Aura Scale Framework</h2>
+          <h2 style={styles.sectionTitle}>The Aetos Framework</h2>
         </div>
 
         <div style={styles.timeline}>
